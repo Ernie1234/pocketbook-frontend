@@ -1,8 +1,6 @@
+import { useAuthStore } from "@/store/authStore";
 import { useEffect, useRef, useState, FormEvent, KeyboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useAuthStore } from "../store/authStore";
-import toast from "react-hot-toast";
 
 const EmailVerificationPage: React.FC = () => {
   const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
