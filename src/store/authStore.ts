@@ -13,6 +13,7 @@ interface User {
   id: string;
   email: string;
   name: string;
+  isVerified: boolean;
 }
 
 interface AuthStore {
@@ -24,7 +25,7 @@ interface AuthStore {
   message: string | null;
 
   // Actions
-  signup: (email: string, password: string, name: string) => Promise<void>;
+  signUp: (email: string, password: string, name: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   verifyEmail: (code: string) => Promise<void>;
@@ -41,10 +42,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
   isCheckingAuth: true,
   message: null,
 
-  signup: async (email: string, password: string, name: string) => {
+  signUp: async (email: string, password: string, name: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/signup`, {
+      const response = await axios.post(`${API_URL}/sign-up`, {
         email,
         password,
         name,
@@ -58,7 +59,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       if (axios.isAxiosError(error)) {
         // Handle the error specifically if it's an AxiosError
         set({
-          error: error.response?.data?.message || "Error signing up",
+          error: error.response?.data.message || "Error signing up",
           isLoading: false,
         });
       } else {
@@ -85,11 +86,20 @@ export const useAuthStore = create<AuthStore>((set) => ({
         error: null,
         isLoading: false,
       });
-    } catch (error: any) {
-      set({
-        error: error.response?.data?.message || "Error logging in",
-        isLoading: false,
-      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Handle the error specifically if it's an AxiosError
+        set({
+          error: error.message || "Error signing up",
+          isLoading: false,
+        });
+      } else {
+        // Handle unexpected errors
+        set({
+          error: "An unexpected error occurred",
+          isLoading: false,
+        });
+      }
       throw error;
     }
   },
@@ -104,7 +114,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
         error: null,
         isLoading: false,
       });
-    } catch (error: any) {
+    } catch (error) {
       set({ error: "Error logging out", isLoading: false });
       throw error;
     }
@@ -120,11 +130,20 @@ export const useAuthStore = create<AuthStore>((set) => ({
         isLoading: false,
       });
       return response.data;
-    } catch (error: any) {
-      set({
-        error: error.response?.data?.message || "Error verifying email",
-        isLoading: false,
-      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Handle the error specifically if it's an AxiosError
+        set({
+          error: error.message || "Error signing up",
+          isLoading: false,
+        });
+      } else {
+        // Handle unexpected errors
+        set({
+          error: "An unexpected error occurred",
+          isLoading: false,
+        });
+      }
       throw error;
     }
   },
@@ -138,8 +157,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
         isAuthenticated: true,
         isCheckingAuth: false,
       });
-    } catch (error: any) {
+    } catch (error) {
       set({ error: null, isCheckingAuth: false, isAuthenticated: false });
+      throw error;
     }
   },
 
@@ -150,12 +170,20 @@ export const useAuthStore = create<AuthStore>((set) => ({
         email,
       });
       set({ message: response.data.message, isLoading: false });
-    } catch (error: any) {
-      set({
-        isLoading: false,
-        error:
-          error.response?.data?.message || "Error sending reset password email",
-      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Handle the error specifically if it's an AxiosError
+        set({
+          error: error.message || "Error signing up",
+          isLoading: false,
+        });
+      } else {
+        // Handle unexpected errors
+        set({
+          error: "An unexpected error occurred",
+          isLoading: false,
+        });
+      }
       throw error;
     }
   },
@@ -167,11 +195,20 @@ export const useAuthStore = create<AuthStore>((set) => ({
         password,
       });
       set({ message: response.data.message, isLoading: false });
-    } catch (error: any) {
-      set({
-        isLoading: false,
-        error: error.response?.data?.message || "Error resetting password",
-      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Handle the error specifically if it's an AxiosError
+        set({
+          error: error.message || "Error signing up",
+          isLoading: false,
+        });
+      } else {
+        // Handle unexpected errors
+        set({
+          error: "An unexpected error occurred",
+          isLoading: false,
+        });
+      }
       throw error;
     }
   },
