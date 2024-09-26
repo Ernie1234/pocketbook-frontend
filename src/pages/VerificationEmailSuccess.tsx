@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/store/authStore";
 import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 export default function VerificationEmailSuccess() {
   const location = useLocation();
+  const { resendCode, isLoading, error } = useAuthStore();
 
   // Function to parse query parameters
   const useQuery = () => {
@@ -13,6 +15,18 @@ export default function VerificationEmailSuccess() {
 
   const query = useQuery();
   const email = query.get("email"); // Get the name from the query string
+
+  async function handleResend(email: string | null) {
+    try {
+      if (!email) {
+        throw new Error("Email is required");
+      }
+      await resendCode(email);
+      //   navigate("/verify-email");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="bg-white w-full min-h-dvh font-nunito">
@@ -55,13 +69,20 @@ export default function VerificationEmailSuccess() {
           </div>
           <p className="font-medium font-nunito text-sm">
             Don{"'"}t receive email?{" "}
-            <Link
-              to={"/auth/register"}
-              className="text-green-500 hover:underline"
+            <span
+              onClick={() => {
+                handleResend(email);
+              }}
+              className="text-green-500 hover:underline cursor-pointer"
             >
-              Resend
-            </Link>
+              {isLoading ? "Sending..." : "Resend"}
+            </span>
           </p>
+          {error && (
+            <p className="bg-rose-100 mt-2 p-2 rounded-lg font-semibold text-rose-400">
+              {error}
+            </p>
+          )}
         </div>
       </div>
     </div>

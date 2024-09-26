@@ -37,6 +37,7 @@ interface AuthStore {
   verifyEmail: (code: string) => Promise<void>;
   checkAuth: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
+  resendCode: (email: string) => Promise<void>;
   resetPassword: (token: string, password: string) => Promise<void>;
 }
 
@@ -181,6 +182,30 @@ export const useAuthStore = create<AuthStore>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/forgot-password`, {
+        email,
+      });
+      set({ message: response.data.message, isLoading: false });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Handle the error specifically if it's an AxiosError
+        set({
+          error: error.message || "Error signing up",
+          isLoading: false,
+        });
+      } else {
+        // Handle unexpected errors
+        set({
+          error: "An unexpected error occurred",
+          isLoading: false,
+        });
+      }
+      throw error;
+    }
+  },
+  resendCode: async (email: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/resend-verification`, {
         email,
       });
       set({ message: response.data.message, isLoading: false });
