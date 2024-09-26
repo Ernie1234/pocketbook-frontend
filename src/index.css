@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -79,6 +82,12 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+}
+.font-sen {
+  font-family: "sen", serif;
+}
+.font-nunito {
+  font-family: nunito, sans-serif;
 }
 
 @layer base {

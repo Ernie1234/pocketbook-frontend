@@ -9,6 +9,8 @@ import {
 import DashboardPage from "./pages/DashboardPage";
 import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
+import AuthWrapper from "./components/AuthComponents/AuthWrapper";
+import SignInPage from "./pages/SignIn";
 
 function App() {
   const { isCheckingAuth, checkAuth } = useAuthStore();
@@ -25,7 +27,19 @@ function App() {
         path="/auth/register"
         element={
           <RedirectAuthenticatedUser>
-            <SignUpPage />
+            <AuthWrapper>
+              <SignUpPage />
+            </AuthWrapper>
+          </RedirectAuthenticatedUser>
+        }
+      />
+      <Route
+        path="/auth/login"
+        element={
+          <RedirectAuthenticatedUser>
+            <AuthWrapper>
+              <SignInPage />
+            </AuthWrapper>
           </RedirectAuthenticatedUser>
         }
       />

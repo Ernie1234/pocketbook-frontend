@@ -25,7 +25,13 @@ interface AuthStore {
   message: string | null;
 
   // Actions
-  signUp: (email: string, password: string, name: string) => Promise<void>;
+  signUp: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+  ) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   verifyEmail: (code: string) => Promise<void>;
@@ -42,13 +48,21 @@ export const useAuthStore = create<AuthStore>((set) => ({
   isCheckingAuth: true,
   message: null,
 
-  signUp: async (email: string, password: string, name: string) => {
+  signUp: async (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+  ) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/sign-up`, {
+        firstName,
+        lastName,
         email,
         password,
-        name,
+        confirmPassword,
       });
       set({
         user: response.data.user,
@@ -76,7 +90,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   login: async (email: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/login`, {
+      const response = await axios.post(`${API_URL}/sign-in`, {
         email,
         password,
       });

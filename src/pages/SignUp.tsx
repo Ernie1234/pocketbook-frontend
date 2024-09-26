@@ -1,90 +1,230 @@
-import { Loader } from "lucide-react";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 
 import { useAuthStore } from "../store/authStore";
-import PasswordStrengthMeter from "@/components/AuthComponents/PasswordStrength";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { userRegisterFormSchema } from "@/utils/schema";
+
+const inputClass = `flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm border-gray-700 text-gray-700 placeholder-gray-400 transition duration-200`;
 
 const SignUpPage = () => {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  //   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { signUp, isLoading } = useAuthStore();
+  const {
+    control,
+    // watch,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof userRegisterFormSchema>>({
+    resolver: zodResolver(userRegisterFormSchema),
+  });
 
-  const { signUp, error, isLoading } = useAuthStore();
+  // const pass = watch("password");
 
-  const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  async function onSubmit(values: z.infer<typeof userRegisterFormSchema>) {
+    const { firstName, lastName, email, password, confirmPassword } = values;
     try {
-      await signUp(email, password, name);
+      await signUp(firstName, lastName, email, password, confirmPassword);
       //   navigate("/verify-email");
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleInputChange =
-    (setter: React.Dispatch<React.SetStateAction<string>>) =>
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setter(e.target.value);
-    };
+  }
 
   return (
-    <div className="flex bg-white w-full min-h-dvh">
-      <div className="bg-gray-800 bg-opacity-50 shadow-xl backdrop-blur-xl backdrop-filter rounded-2xl w-full max-w-md overflow-hidden">
-        <div className="p-8">
-          <h2 className="bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-6 font-bold text-3xl text-center text-transparent">
+    <div className="bg-white w-full min-h-dvh font-nunito">
+      <div className="flex  flex-col h-full justify-center items-center gap-8 mx-auto w-full md:w-10/12">
+        <div className="flex self-start">
+          <Link to="/">
+            <img
+              src="/assets/logoGreen.png"
+              alt="PocketBook"
+              className="h-10"
+            />
+          </Link>
+        </div>
+        <div className="flex flex-col justify-center items-center">
+          <h2 className="font-semibold text-3xl text-gray-900">
             Create Account
           </h2>
+          <p className="">Start trading with PocketBook</p>
+        </div>
 
-          <form onSubmit={handleSignUp}>
-            <Input
-              type="text"
-              placeholder="Full Name"
-              value={name}
-              onChange={handleInputChange(setName)}
-            />
-            <Input
-              type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={handleInputChange(setEmail)}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={handleInputChange(setPassword)}
-            />
-            {error && (
-              <p className="mt-2 font-semibold text-red-500">{error}</p>
-            )}
-            <PasswordStrengthMeter password={password} />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div className="flex gap-3 w-full">
+            <div className="flex flex-col space-y-1">
+              <label htmlFor="firstName">
+                {errors.firstName ? (
+                  <span className="text-sm text-rose-400">
+                    {errors.firstName.message}
+                  </span>
+                ) : (
+                  <span>First Name*</span>
+                )}
+              </label>
+              <Controller
+                name="firstName"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    id="firstName"
+                    placeholder="Enter your first name"
+                    className={inputClass}
+                  />
+                )}
+              />
+            </div>
 
-            <Button
-              className="bg-gradient-to-r from-green-500 hover:from-green-600 to-emerald-600 hover:to-emerald-700 shadow-lg mt-5 px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 w-full font-bold text-white focus:outline-none transition duration-200"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <Loader className="mx-auto animate-spin" size={24} />
+            <div className="flex flex-col space-y-1">
+              <label htmlFor="lastName">
+                {errors.lastName ? (
+                  <span className="text-sm text-rose-400">
+                    {errors.lastName.message}
+                  </span>
+                ) : (
+                  <span>Last Name*</span>
+                )}
+              </label>
+              <Controller
+                name="lastName"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    id="lastName"
+                    placeholder="Enter your last name"
+                    className={inputClass}
+                  />
+                )}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="email">
+              {errors.email ? (
+                <span className="text-sm text-rose-400">
+                  {errors.email.message}
+                </span>
               ) : (
-                "Sign Up"
+                <span>Email*</span>
               )}
-            </Button>
-          </form>
-        </div>
-        <div className="flex justify-center bg-gray-900 bg-opacity-50 px-8 py-4">
-          <p className="text-gray-400 text-sm">
-            Already have an account?{" "}
-            <Link to={"/login"} className="text-green-400 hover:underline">
-              Login
-            </Link>
-          </p>
-        </div>
+            </label>
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="email"
+                  id="email"
+                  placeholder="Enter your email"
+                  className={inputClass}
+                />
+              )}
+            />
+          </div>
+
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="password">
+              {errors.password ? (
+                <span className="text-sm text-rose-400">
+                  {errors.password.message}
+                </span>
+              ) : (
+                <span>Password*</span>
+              )}
+            </label>
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <div style={{ position: "relative" }}>
+                  <input
+                    {...field}
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    placeholder="Enter your password"
+                    className={inputClass}
+                  />
+                  <div
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    style={{ position: "absolute", right: 10, top: 10 }}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="text-gray-500" size={20} />
+                    ) : (
+                      <Eye className="text-gray-500" size={20} />
+                    )}
+                  </div>
+                </div>
+              )}
+            />
+          </div>
+          <div className="flex flex-col space-y-1">
+            <label htmlFor="confirmPassword">
+              {errors.confirmPassword ? (
+                <span className="text-sm text-rose-400">
+                  {errors.confirmPassword.message}
+                </span>
+              ) : (
+                <span>Confirm Password*</span>
+              )}
+            </label>
+            <Controller
+              name="confirmPassword"
+              control={control}
+              render={({ field }) => (
+                <div style={{ position: "relative" }}>
+                  <input
+                    {...field}
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    className={inputClass}
+                  />
+                  <div
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    style={{ position: "absolute", right: 10, top: 10 }}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="text-gray-500" size={20} />
+                    ) : (
+                      <Eye className="text-gray-500" size={20} />
+                    )}
+                  </div>
+                </div>
+              )}
+            />
+          </div>
+          <Button
+            variant="greenBtn"
+            className="w-full"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading || isSubmitting ? (
+              <div className="flex w-full justify-center items-center gap-3">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <p className="">Signing Up...</p>
+              </div>
+            ) : (
+              "Sign Up"
+            )}
+          </Button>
+        </form>
+
+        <p className="text-sm font-medium font-nunito">
+          Already have an account?{" "}
+          <Link to={"/auth/login"} className="text-green-500 hover:underline">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );
