@@ -10,7 +10,7 @@ interface PasswordStrengthMeterProps {
 
 const PasswordCriteria: React.FC<PasswordCriteriaProps> = ({ password }) => {
   const criteria = [
-    { label: "At least 6 characters", met: password.length >= 6 },
+    { label: "At least 8 characters", met: password.length >= 8 },
     { label: "Contains uppercase letter", met: /[A-Z]/.test(password) },
     { label: "Contains lowercase letter", met: /[a-z]/.test(password) },
     { label: "Contains a number", met: /\d/.test(password) },
@@ -18,13 +18,13 @@ const PasswordCriteria: React.FC<PasswordCriteriaProps> = ({ password }) => {
   ];
 
   return (
-    <div className="mt-2 space-y-1">
+    <div className="space-y-1 mt-2">
       {criteria.map((item) => (
         <div key={item.label} className="flex items-center text-xs">
           {item.met ? (
-            <Check className="size-4 text-green-500 mr-2" />
+            <Check className="mr-2 text-green-500 size-4" />
           ) : (
-            <X className="size-4 text-gray-500 mr-2" />
+            <X className="mr-2 text-gray-500 size-4" />
           )}
           <span className={item.met ? "text-green-500" : "text-gray-400"}>
             {item.label}
@@ -40,7 +40,7 @@ const PasswordStrengthMeter: React.FC<PasswordStrengthMeterProps> = ({
 }) => {
   const getStrength = (pass: string): number => {
     let strength = 0;
-    if (pass.length >= 6) strength++;
+    if (pass.length >= 8) strength++;
     if (/[a-z]/.test(pass) && /[A-Z]/.test(pass)) strength++;
     if (/\d/.test(pass)) strength++;
     if (/[^a-zA-Z\d]/.test(pass)) strength++;
@@ -68,8 +68,8 @@ const PasswordStrengthMeter: React.FC<PasswordStrengthMeterProps> = ({
   return (
     <div className="mt-2">
       <div className="flex justify-between items-center mb-1">
-        <span className="text-xs text-gray-400">Password strength</span>
-        <span className="text-xs text-gray-400">
+        <span className="text-gray-400 text-xs">Password strength</span>
+        <span className="text-gray-400 text-xs">
           {getStrengthText(strength)}
         </span>
       </div>

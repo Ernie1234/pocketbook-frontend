@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
@@ -8,54 +8,64 @@ import { Controller, useForm } from "react-hook-form";
 import { useAuthStore } from "../store/authStore";
 import { Button } from "@/components/ui/button";
 import { userRegisterFormSchema } from "@/utils/schema";
+import PasswordStrengthMeter from "@/components/AuthComponents/PasswordStrength";
 
 export const inputClass = `flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm border-gray-700 text-gray-700 placeholder-gray-400 transition duration-200`;
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { signUp, isLoading } = useAuthStore();
+  const { signUp, isLoading, error } = useAuthStore();
   const {
     control,
-    // watch,
+    watch,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<z.infer<typeof userRegisterFormSchema>>({
     resolver: zodResolver(userRegisterFormSchema),
+    defaultValues: { password: "", email: "" },
   });
 
-  // const pass = watch("password");
+  const pass = watch("password");
 
   async function onSubmit(values: z.infer<typeof userRegisterFormSchema>) {
     const { firstName, lastName, email, password, confirmPassword } = values;
     try {
       await signUp(firstName, lastName, email, password, confirmPassword);
-      //   navigate("/verify-email");
+      navigate(
+        `/auth/verification-email-success?email=${encodeURIComponent(email)}`
+      );
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+      }, 5000);
     } catch (error) {
       console.log(error);
     }
   }
 
   return (
-    <div className="bg-white w-full min-h-dvh font-nunito">
-      <div className="flex  flex-col h-full justify-center items-center gap-8 mx-auto w-full md:w-10/12">
+    <div className="bg-white w-full min-h-dvh h-full font-nunito">
+      <div className="flex flex-col h-full justify-center items-center gap-4 mx-auto w-full md:w-10/12 px-5 md:px-0">
         <div className="flex self-start">
           <Link to="/">
             <img
               src="/assets/logoGreen.png"
               alt="PocketBook"
-              className="h-10"
+              className="h-6 md:h-8"
             />
           </Link>
         </div>
         <div className="flex flex-col justify-center items-center">
-          <h2 className="font-semibold text-3xl text-gray-900">
+          <h2 className="font-semibold text-2xl text-gray-900">
             Create Account
           </h2>
-          <p className="">Start trading with PocketBook</p>
+          <p className="text-sm">Start trading with PocketBook</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           <div className="flex gap-3 w-full">
             <div className="flex flex-col space-y-1">
               <label htmlFor="firstName">
@@ -64,7 +74,7 @@ const SignUpPage = () => {
                     {errors.firstName.message}
                   </span>
                 ) : (
-                  <span>First Name*</span>
+                  <span className="text-sm">First Name*</span>
                 )}
               </label>
               <Controller
@@ -88,7 +98,7 @@ const SignUpPage = () => {
                     {errors.lastName.message}
                   </span>
                 ) : (
-                  <span>Last Name*</span>
+                  <span className="text-sm">Last Name*</span>
                 )}
               </label>
               <Controller
@@ -112,7 +122,7 @@ const SignUpPage = () => {
                   {errors.email.message}
                 </span>
               ) : (
-                <span>Email*</span>
+                <span className="text-sm">Email*</span>
               )}
             </label>
             <Controller
@@ -137,7 +147,7 @@ const SignUpPage = () => {
                   {errors.password.message}
                 </span>
               ) : (
-                <span>Password*</span>
+                <span className="text-sm">Password*</span>
               )}
             </label>
             <Controller
@@ -173,7 +183,7 @@ const SignUpPage = () => {
                   {errors.confirmPassword.message}
                 </span>
               ) : (
-                <span>Confirm Password*</span>
+                <span className="text-sm">Confirm Password*</span>
               )}
             </label>
             <Controller
@@ -202,6 +212,17 @@ const SignUpPage = () => {
               )}
             />
           </div>
+          {error && (
+            <p className="bg-rose-100 rounded-lg p-2 text-rose-400 font-semibold mt-2">
+              {error}
+            </p>
+          )}
+          {success && (
+            <p className="bg-green-100 rounded-lg p-2 text-green-400 font-semibold mt-2">
+              Confirmation sent to your email
+            </p>
+          )}
+          <PasswordStrengthMeter password={pass} />
           <Button
             variant="greenBtn"
             className="w-full"
