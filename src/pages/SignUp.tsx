@@ -9,7 +9,7 @@ import { useAuthStore } from "../store/authStore";
 import { Button } from "@/components/ui/button";
 import { userRegisterFormSchema } from "@/utils/schema";
 
-const inputClass = `flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm border-gray-700 text-gray-700 placeholder-gray-400 transition duration-200`;
+export const inputClass = `flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm border-gray-700 text-gray-700 placeholder-gray-400 transition duration-200`;
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
