@@ -34,13 +34,13 @@ const SignUpPage = () => {
     const { firstName, lastName, email, password, confirmPassword } = values;
     try {
       await signUp(firstName, lastName, email, password, confirmPassword);
-      navigate(
-        `/auth/verification-email-success?email=${encodeURIComponent(email)}`
-      );
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
       }, 5000);
+      navigate(
+        `/auth/verification-email-success?email=${encodeURIComponent(email)}`
+      );
     } catch (error) {
       console.log(error);
     }
