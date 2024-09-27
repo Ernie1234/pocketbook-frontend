@@ -73,7 +73,7 @@ export default function VerificationEmailSuccess() {
               onClick={() => {
                 handleResend(email);
               }}
-              className="text-green-500 hover:underline cursor-pointer"
+              className="font-semibold text-green-600 hover:underline cursor-pointer"
             >
               {isLoading ? "Sending..." : "Resend"}
             </span>
