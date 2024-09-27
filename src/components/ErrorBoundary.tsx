@@ -1,5 +1,3 @@
-"use client";
-
 // components/ErrorBoundary.tsx
 import React, { useState, useEffect } from "react";
 

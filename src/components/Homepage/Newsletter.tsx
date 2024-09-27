@@ -1,10 +1,15 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
 
 import Chip from "../Chip";
 import { Button } from "../ui/button";
@@ -20,7 +25,7 @@ const Newsletter = () => {
   });
 
   function onSubmit(values: z.infer<typeof newsLetterFormSchema>) {
-    // console.log(values);
+    console.log(values);
   }
 
   return (

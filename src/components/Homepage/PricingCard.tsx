@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Separator } from "../ui/separator";
 import { Check } from "lucide-react";
 
@@ -79,7 +79,7 @@ export default function PricingCard({
       </div>
 
       <Link
-        href="/pricing"
+        to="/pricing"
         className="bg-green-foreground rounded-full hover:bg-green-600 text-green font-semibold text-lg py-3 px-7 max-w-full text-center"
       >
         Get Started
