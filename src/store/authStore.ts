@@ -105,7 +105,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       if (axios.isAxiosError(error)) {
         // Handle the error specifically if it's an AxiosError
         set({
-          error: error.message || "Error signing up",
+          error: error.response?.data.message || "Error signing up",
           isLoading: false,
         });
       } else {
@@ -138,7 +138,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
   verifyEmail: async (code: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/verify-email`, { code });
+      const response = await axios.post(`${API_URL}/verification`, {
+        verificationCode: code,
+      });
       set({
         user: response.data.user,
         isAuthenticated: true,
@@ -149,7 +151,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       if (axios.isAxiosError(error)) {
         // Handle the error specifically if it's an AxiosError
         set({
-          error: error.message || "Error signing up",
+          error: error.response?.data.message || "Error verifying mail",
           isLoading: false,
         });
       } else {
@@ -173,7 +175,21 @@ export const useAuthStore = create<AuthStore>((set) => ({
         isCheckingAuth: false,
       });
     } catch (error) {
-      set({ error: null, isCheckingAuth: false, isAuthenticated: false });
+      if (axios.isAxiosError(error)) {
+        set({
+          error: null,
+          isCheckingAuth: false,
+          isAuthenticated: false,
+
+          isLoading: false,
+        });
+      } else {
+        // Handle unexpected errors
+        set({
+          error: "An unexpected error occurred",
+          isLoading: false,
+        });
+      }
       throw error;
     }
   },

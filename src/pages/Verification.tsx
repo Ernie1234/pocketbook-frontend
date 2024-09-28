@@ -1,13 +1,37 @@
 import { useAuthStore } from "@/store/authStore";
-import { useEffect, useRef, useState, FormEvent, KeyboardEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  useEffect,
+  useRef,
+  useState,
+  FormEvent,
+  KeyboardEvent,
+  useCallback,
+} from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 const EmailVerificationPage: React.FC = () => {
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const verificationCodeFromUrl = query.get("code");
+
   const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
+  // Get error and loading state from auth store
   const { error, isLoading, verifyEmail } = useAuthStore();
+
+  useEffect(() => {
+    if (verificationCodeFromUrl) {
+      const codeArray = verificationCodeFromUrl.split("").slice(0, 6);
+      setCode(codeArray);
+    } else {
+      setCode(["", "", "", "", "", ""]); // Reset if no code is present
+    }
+  }, [verificationCodeFromUrl]);
 
   const handleChange = (index: number, value: string) => {
     const newCode = [...code];
@@ -21,8 +45,7 @@ const EmailVerificationPage: React.FC = () => {
       setCode(newCode);
 
       // Focus on the last non-empty input or the first empty one
-      const lastFilledIndex = newCode.findLastIndex((digit) => digit !== "");
-      const focusIndex = lastFilledIndex < 5 ? lastFilledIndex + 1 : 5;
+      const focusIndex = Math.min(pastedCode.length, 5);
       inputRefs.current[focusIndex]?.focus();
     } else {
       newCode[index] = value;
@@ -41,67 +64,83 @@ const EmailVerificationPage: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const verificationCode = code.join("");
-    try {
-      await verifyEmail(verificationCode);
-      navigate("/");
-      toast.success("Email verified successfully");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const handleSubmit = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      const verificationCode = code.join("");
+      try {
+        await verifyEmail(verificationCode);
+        navigate("/auth/login");
+        toast({
+          title: "Successful!",
+          description: "Email verified successfully",
+        });
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: "Error!",
+          description: "Email verification failed. Please try again.",
+        });
+      }
+    },
+    [code, navigate, toast, verifyEmail]
+  );
 
-  // Auto submit when all fields are filled
   useEffect(() => {
     if (code.every((digit) => digit !== "")) {
-      handleSubmit(new Event("submit") as unknown as FormEvent); // Casting to FormEvent to match handleSubmit signature
+      handleSubmit(new Event("submit") as unknown as FormEvent);
     }
-  }, [code]);
+  }, [code, handleSubmit]);
 
   return (
-    <div className="max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-md"
-      >
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text">
-          Verify Your Email
-        </h2>
-        <p className="text-center text-gray-300 mb-6">
-          Enter the 6-digit code sent to your email address.
-        </p>
+    <div className="bg-white w-full min-h-screen font-nunito">
+      <div className="flex flex-col items-center gap-16 md:gap-20 lg:gap-28 mx-auto px-5 md:px-0 py-8 w-full md:w-10/12 h-full">
+        <div className="flex justify-self-start self-start">
+          <Link to="/">
+            <img
+              src="/assets/logoGreen.png"
+              alt="PocketBook"
+              className="h-8 md:h-10"
+            />
+          </Link>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="flex justify-between">
-            {code.map((digit, index) => (
-              <input
-                key={index}
-                ref={(el) => (inputRefs.current[index] = el)}
-                type="text"
-                maxLength={1}
-                value={digit}
-                onChange={(e) => handleChange(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-12 h-12 text-center text-2xl font-bold bg-gray-700 text-white border-2 border-gray-600 rounded-lg focus:border-green-500 focus:outline-none"
-              />
-            ))}
+        <div className="flex flex-col items-center gap-4 w-full">
+          <div className="flex flex-col justify-center items-center">
+            <h2 className="font-semibold text-3xl text-gray-900">
+              Welcome Back!
+            </h2>
+            <p>Manage your account, build your portfolio</p>
           </div>
-          {error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            type="submit"
-            disabled={isLoading || code.some((digit) => !digit)}
-            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 disabled:opacity-50"
-          >
-            {isLoading ? "Verifying..." : "Verify Email"}
-          </motion.button>
-        </form>
-      </motion.div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="flex justify-between gap-3">
+              {code.map((digit, index) => (
+                <input
+                  key={index}
+                  ref={(el) => (inputRefs.current[index] = el)}
+                  type="text"
+                  maxLength={1}
+                  value={digit}
+                  onChange={(e) => handleChange(index, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(index, e)}
+                  className="border-gray-400 focus:border-green-500 bg-gray-50 border rounded-lg w-12 h-12 font-bold text-2xl text-center text-gray-500 focus:outline-none"
+                />
+              ))}
+            </div>
+            {error && (
+              <p className="mt-2 font-semibold text-red-500">{error}</p>
+            )}
+            <button
+              type="submit"
+              disabled={isLoading || code.some((digit) => !digit)}
+              className="bg-gradient-to-r from-green-500 hover:from-green-600 to-emerald-600 hover:to-emerald-700 focus:ring-opacity-50 disabled:opacity-50 shadow-lg px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-500 w-full font-bold text-white focus:outline-none"
+            >
+              {isLoading ? "Verifying..." : "Verify Email"}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

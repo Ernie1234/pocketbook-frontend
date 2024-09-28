@@ -12,10 +12,10 @@ import { inputClass } from "./SignUp";
 
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { login, isLoading } = useAuthStore();
+  const [success, setSuccess] = useState(false);
+  const { login, isLoading, error } = useAuthStore();
   const {
     control,
-    // watch,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<z.infer<typeof userLoginFormSchema>>({
@@ -25,6 +25,10 @@ const SignInPage = () => {
     const { email, password } = values;
     try {
       await login(email, password);
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+      }, 5000);
       //   navigate("/verify-email");
     } catch (error) {
       console.log(error);
@@ -116,6 +120,17 @@ const SignInPage = () => {
                 )}
               />
             </div>
+
+            {error && (
+              <p className="bg-rose-100 rounded-lg px-4 py-2 text-rose-400 font-semibold mt-2">
+                {error}
+              </p>
+            )}
+            {success && (
+              <p className="bg-green-100 rounded-lg p-2 text-green-400 font-semibold mt-2">
+                Confirmation sent to your email
+              </p>
+            )}
 
             <Button
               variant="greenBtn"

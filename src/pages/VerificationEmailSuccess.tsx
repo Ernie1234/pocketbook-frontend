@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { useAuthStore } from "@/store/authStore";
 import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -83,6 +84,7 @@ export default function VerificationEmailSuccess() {
               {error}
             </p>
           )}
+          <Separator className="max-w-xl" />
         </div>
       </div>
     </div>

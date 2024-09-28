@@ -12,6 +12,7 @@ import HomePage from "./pages/HomePage";
 import AuthWrapper from "./components/AuthComponents/AuthWrapper";
 import SignInPage from "./pages/SignIn";
 import VerificationEmailSuccess from "./pages/VerificationEmailSuccess";
+import EmailVerificationPage from "./pages/Verification";
 
 function App() {
   const { isCheckingAuth, checkAuth } = useAuthStore();
@@ -50,6 +51,16 @@ function App() {
           <RedirectAuthenticatedUser>
             <AuthWrapper>
               <VerificationEmailSuccess />
+            </AuthWrapper>
+          </RedirectAuthenticatedUser>
+        }
+      />
+      <Route
+        path="/auth/email-verification"
+        element={
+          <RedirectAuthenticatedUser>
+            <AuthWrapper>
+              <EmailVerificationPage />
             </AuthWrapper>
           </RedirectAuthenticatedUser>
         }
