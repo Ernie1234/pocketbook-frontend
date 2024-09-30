@@ -15,11 +15,15 @@ export default function Sidebar() {
       <div className="flex flex-col gap-8 sm:gap-10 md:gap-12 lg:gap-16">
         <Link to="/dashboard">
           <div className="lg:flex hidden">
-            <img src="/logo.svg" alt="logo" className="w-40 object-contain" />
+            <img
+              src="/assets/logo.svg"
+              alt="logo"
+              className="w-40 object-contain"
+            />
           </div>
           <div className="flex lg:hidden">
             <img
-              src="/Frame 2.png"
+              src="/assets/Frame 2.png"
               alt="logo"
               className="w-8 sm:w-12 md:w-14 object-contain"
             />
