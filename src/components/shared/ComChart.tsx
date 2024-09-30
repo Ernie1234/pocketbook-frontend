@@ -6,7 +6,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useEffect, useState } from "react";
 
 const chartConfig = {
   mobile: {
@@ -15,68 +14,17 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface Props {
-  commodityName: string;
-}
-
-type TPrice = {
-  id: string;
-  price: number;
-  createdAt: Date;
-  updatedAt: Date;
-  commodityId: string;
-};
-
-export function ComChart({ commodityName }: Props) {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [chartData, setChartData] = useState<TPrice[]>([]);
-  const [chartColor, setChartColor] = useState<string>("hsl(var(--chart-2))");
-
-  const fetchChartData = async (commodityName: string) => {
-    try {
-      const res = await getCommodityByName(commodityName);
-      if (!res) throw new Error("No data received");
-      return res;
-    } catch (err) {
-      console.error("Error fetching chart data:", err);
-      throw err; // Propagate the error
-    }
-  };
-
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      setError(null); // Reset error state
-
-      try {
-        const data = await fetchChartData(commodityName);
-        setChartData(data.price);
-        if (data.price.length >= 2) {
-          const lastPrice = data.price[data.price.length - 1].price;
-          const secondLastPrice = data.price[data.price.length - 2].price;
-
-          // Set chart color based on the difference
-          if (lastPrice > secondLastPrice) {
-            setChartColor("hsl(var(--color-green))"); // Price increased
-          } else if (lastPrice < secondLastPrice) {
-            setChartColor("hsl(var(--color-red))"); // Price decreased
-          } else {
-            setChartColor("hsl(var(--color-neutral))"); // No change
-          }
-        }
-      } catch (err) {
-        setError("Failed to fetch chart data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, [commodityName]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+export function ComChart() {
+  const chartColor = "red";
+  const chartData = [
+    { name: "Day 1", price: 400 },
+    { name: "Day 2", price: 300 },
+    { name: "Day 3", price: 200 },
+    { name: "Day 4", price: 500 },
+    { name: "Day 5", price: 600 },
+    { name: "Day 6", price: 700 },
+    { name: "Day 7", price: 800 },
+  ];
 
   return (
     <ChartContainer

@@ -1,5 +1,3 @@
-import { Transaction, TransactionType } from "@prisma/client";
-
 export type TCommodity = {
   id: string;
   name: string;
@@ -39,7 +37,6 @@ export type TUser = {
 export type TTransactionData = {
   id: number;
   commodityName: string;
-  type: TransactionType;
   quantity: number;
   status: "abandoned" | "success" | "failed";
   reference: string;
@@ -71,7 +68,6 @@ export type TTransactionData = {
   log: null;
   fees: null;
   fees_split: null;
-  authorization: {};
   customer: {
     id: number;
     first_name: null;
@@ -84,7 +80,6 @@ export type TTransactionData = {
     international_format_phone: null;
   };
   plan: null;
-  split: {};
   order_id: null;
   paidAt: null;
   requested_amount: number;
@@ -93,14 +88,11 @@ export type TTransactionData = {
   fees_breakdown: null;
   connect: null;
   transaction_date: string;
-  plan_object: {};
-  subaccount: {};
 };
 
 export type TAllTrans = {
   id: string;
   commodityName: string;
-  type: TransactionType;
   quantity: number | null;
   status: string | null;
   reference: string | null;
