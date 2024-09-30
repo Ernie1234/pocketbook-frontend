@@ -13,6 +13,7 @@ import AuthWrapper from "./components/AuthComponents/AuthWrapper";
 import SignInPage from "./pages/SignIn";
 import VerificationEmailSuccess from "./pages/VerificationEmailSuccess";
 import EmailVerificationPage from "./pages/Verification";
+import CommodityPage from "./pages/CommodityPage";
 
 function App() {
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
@@ -72,6 +73,14 @@ function App() {
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/commodity"
+        element={
+          <ProtectedRoute>
+            <CommodityPage />
           </ProtectedRoute>
         }
       />
