@@ -14,6 +14,8 @@ interface User {
   email: string;
   name: string;
   isVerified: boolean;
+  image: string | null;
+  createdAt: string;
 }
 
 interface AuthStore {
