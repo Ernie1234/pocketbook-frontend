@@ -122,7 +122,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   logout: async () => {
     set({ isLoading: true, error: null });
     try {
-      await axios.post(`${API_URL}/logout`);
+      await axios.post(`${API_URL}/sign-out`);
       set({
         user: null,
         isAuthenticated: false,
@@ -130,7 +130,17 @@ export const useAuthStore = create<AuthStore>((set) => ({
         isLoading: false,
       });
     } catch (error) {
-      set({ error: "Error logging out", isLoading: false });
+      if (axios.isAxiosError(error)) {
+        set({
+          error: error.response?.data.message || "Error signing out",
+          isLoading: false,
+        });
+      } else {
+        set({
+          error: "An unexpected error occurred",
+          isLoading: false,
+        });
+      }
       throw error;
     }
   },

@@ -14,6 +14,9 @@ import SignInPage from "./pages/SignIn";
 import VerificationEmailSuccess from "./pages/VerificationEmailSuccess";
 import EmailVerificationPage from "./pages/Verification";
 import CommodityPage from "./pages/CommodityPage";
+import PortfolioPage from "./pages/PortfolioPage";
+import TransactionPage from "./pages/TransactionPage";
+import SettingPage from "./pages/SettingPage";
 
 function App() {
   const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
@@ -81,6 +84,30 @@ function App() {
         element={
           <ProtectedRoute>
             <CommodityPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/portfolio"
+        element={
+          <ProtectedRoute>
+            <PortfolioPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/transaction"
+        element={
+          <ProtectedRoute>
+            <TransactionPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/setting"
+        element={
+          <ProtectedRoute>
+            <SettingPage />
           </ProtectedRoute>
         }
       />
