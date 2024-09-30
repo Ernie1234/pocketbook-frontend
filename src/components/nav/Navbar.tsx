@@ -21,9 +21,9 @@ export default function Navbar() {
           </div>
           <div className="flex lg:hidden">
             <img
-              src="/Frame 2.png"
+              src="/assets/Frame 2.svg"
               alt="logo"
-              className="w-8 sm:w-12 md:w-14 object-contain"
+              className="w-8 sm:w-10 md:w-14 object-contain"
             />
           </div>
         </Link>

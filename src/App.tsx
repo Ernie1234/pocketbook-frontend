@@ -15,13 +15,15 @@ import VerificationEmailSuccess from "./pages/VerificationEmailSuccess";
 import EmailVerificationPage from "./pages/Verification";
 
 function App() {
-  const { isCheckingAuth, checkAuth } = useAuthStore();
+  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
   if (isCheckingAuth) return <p>Loading</p>;
+
+  console.log(isAuthenticated, user);
 
   return (
     <Routes>

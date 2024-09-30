@@ -67,6 +67,7 @@ export default function VerificationEmailSuccess() {
               <span className="text-green-600">{email}</span>
               <br /> Check your email to verify!
             </p>
+            <Separator className="max-w-xl" />
           </div>
           <p className="font-medium font-nunito text-sm">
             Don{"'"}t receive email?{" "}
@@ -84,7 +85,6 @@ export default function VerificationEmailSuccess() {
               {error}
             </p>
           )}
-          <Separator className="max-w-xl" />
         </div>
       </div>
     </div>

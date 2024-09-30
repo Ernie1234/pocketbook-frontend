@@ -1,7 +1,5 @@
-"use client";
-
-import Footer from "./footer/Footer";
-import Navbar from "./nav/Navbar";
+import { cn } from "@/lib/utils";
+import Sidebar from "./shared/Sidebar";
 
 interface Props {
   children: React.ReactNode;
@@ -11,9 +9,13 @@ interface Props {
 export default function Layout({ children, className }: Props) {
   return (
     <>
-      <Navbar />
-      <main className={`${className}`}>{children}</main>
-      <Footer />
+      <div className="flex">
+        <Sidebar />
+        <main className={cn("w-full", className)}>{children}</main>
+
+        {/* <Sidebar />
+        <div className="w-full">{children}</div> */}
+      </div>
     </>
   );
 }
