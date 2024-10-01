@@ -4,7 +4,11 @@ import axios from "axios";
 const API_URL =
   import.meta.env.MODE === "development"
     ? import.meta.env.VITE_APP_BASE_URL
-    : `${import.meta.env.VITE_APP_API_BASE_URL}/api/v1`;
+    : import.meta.env.VITE_APP_API_BASE_URL;
+// const API_URL =
+//   import.meta.env.MODE === "development"
+//     ? import.meta.env.VITE_APP_BASE_URL
+//     : `${import.meta.env.VITE_APP_API_BASE_URL}/api/v1`;
 
 axios.defaults.withCredentials = true;
 
