@@ -13,21 +13,20 @@ import AuthWrapper from "./components/AuthComponents/AuthWrapper";
 import SignInPage from "./pages/SignIn";
 import VerificationEmailSuccess from "./pages/VerificationEmailSuccess";
 import EmailVerificationPage from "./pages/Verification";
-import CommodityPage from "./pages/CommodityPage";
+import CommoditiesPage from "./pages/CommoditiesPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import TransactionPage from "./pages/TransactionPage";
 import SettingPage from "./pages/SettingPage";
+import CommodityPage from "./pages/CommodityPage";
 
 function App() {
-  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
+  const { isCheckingAuth, checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  if (isCheckingAuth) return <p>Loading</p>;
-
-  console.log(isAuthenticated, user);
+  if (isCheckingAuth) return <p>Loading user</p>;
 
   return (
     <Routes>
@@ -80,7 +79,15 @@ function App() {
         }
       />
       <Route
-        path="/dashboard/commodity"
+        path="/dashboard/commodities"
+        element={
+          <ProtectedRoute>
+            <CommoditiesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/commodities/:slug"
         element={
           <ProtectedRoute>
             <CommodityPage />

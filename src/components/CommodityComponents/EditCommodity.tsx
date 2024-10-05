@@ -11,7 +11,7 @@ import EditCommodityForm from "./EditCommodityForm";
 interface Props {
   role: string | undefined;
   name: string | undefined;
-  price: number | null | undefined;
+  price: number | undefined;
 }
 export default function EditCommodity({ role, name, price }: Props) {
   return (

@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { ComChart } from "../shared/ComChart";
 
 interface Props {
-  id: string;
   index: number;
   name: string;
   price: number | undefined;
@@ -17,13 +16,13 @@ interface Props {
   slug: string;
 }
 
-export default function Row({ id, index, name, price, unit, slug }: Props) {
+export default function Row({ index, name, price, unit, slug }: Props) {
   const navigate = useNavigate();
 
   return (
     <TableRow
       className="hover:cursor-pointer"
-      onClick={() => navigate(`/dashboard/commodity/${slug}`)}
+      onClick={() => navigate(`/dashboard/commodities/${slug}`)}
     >
       <TableCell>
         <div className="flex justify-center items-center w-full h-full">

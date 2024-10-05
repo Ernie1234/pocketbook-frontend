@@ -27,7 +27,7 @@ export const dashboardLinks = [
     icon: BsHouse,
   },
   {
-    path: "/dashboard/commodity",
+    path: "/dashboard/commodities",
     text: "Commodity Market",
     icon: ShoppingBasket,
   },

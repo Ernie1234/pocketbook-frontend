@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import { User } from "@/types/user";
 
 const API_URL =
   import.meta.env.MODE === "development"
@@ -11,16 +12,6 @@ const API_URL =
 //     : `${import.meta.env.VITE_APP_API_BASE_URL}/api/v1`;
 
 axios.defaults.withCredentials = true;
-
-// Define types for the user object and store state
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  isVerified: boolean;
-  image: string | null;
-  createdAt: string;
-}
 
 interface AuthStore {
   user: User | null;
