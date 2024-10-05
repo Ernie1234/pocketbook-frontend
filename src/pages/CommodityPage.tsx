@@ -9,9 +9,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useAllCommodities } from "@/services/queries";
 
 export default function CommodityPage() {
   const role = "ADMIN";
+  const { commodities, isLoading, error } = useAllCommodities();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  console.log(commodities);
 
   return (
     <Layout>
