@@ -14,15 +14,16 @@ interface Props {
   price: number | undefined;
   unit: string;
   description: string;
+  slug: string;
 }
 
-export default function Row({ id, index, name, price, unit }: Props) {
+export default function Row({ id, index, name, price, unit, slug }: Props) {
   const navigate = useNavigate();
 
   return (
     <TableRow
       className="hover:cursor-pointer"
-      onClick={() => navigate(`/dashboard/commodity/${id}`)}
+      onClick={() => navigate(`/dashboard/commodity/${slug}`)}
     >
       <TableCell>
         <div className="flex justify-center items-center w-full h-full">
