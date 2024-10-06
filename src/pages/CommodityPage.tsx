@@ -43,7 +43,7 @@ export default function CommodityPage() {
 
   const avgPrice = lastPrice && calculatePercentageChange(lastPrice);
 
-  console.log(commodity, isLoading, error);
+  console.log(commodity?.createdAt);
 
   return (
     <div className="w-full min-h-dvh">

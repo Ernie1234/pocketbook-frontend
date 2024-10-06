@@ -42,7 +42,7 @@ export default function Row({ index, name, price, unit, slug }: Props) {
       <TableCell>+6.04%</TableCell>
       <TableCell>
         <AspectRatio ratio={16 / 9} className="bg-muted">
-          <ComChart />
+          <ComChart commodityName={name} />
         </AspectRatio>
       </TableCell>
       <TableCell>

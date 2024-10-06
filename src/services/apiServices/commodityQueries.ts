@@ -19,3 +19,16 @@ export const getCommodityBySlug = async (slug: string): Promise<ICommodity> => {
     throw error;
   }
 };
+export const getCommodityByName = async (
+  commodityName: string
+): Promise<ICommodity> => {
+  try {
+    const response = await axiosInstance.get<ICommodity>(
+      `commodities/${commodityName}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
