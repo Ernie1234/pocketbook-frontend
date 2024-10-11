@@ -1,4 +1,4 @@
-import { ICommodity, ICommodityData } from "@/types/commodities";
+import { ICommodityData, ICommoditySlugData } from "@/types/commodities";
 import { axiosInstance } from "../api";
 
 export const getAllCommodities = async () => {
@@ -10,9 +10,13 @@ export const getAllCommodities = async () => {
     throw error;
   }
 };
-export const getCommodityBySlug = async (slug: string): Promise<ICommodity> => {
+export const getCommodityBySlug = async (
+  slug: string
+): Promise<ICommoditySlugData> => {
   try {
-    const response = await axiosInstance.get<ICommodity>(`commodities/${slug}`);
+    const response = await axiosInstance.get<ICommoditySlugData>(
+      `commodities/${slug}`
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -21,9 +25,9 @@ export const getCommodityBySlug = async (slug: string): Promise<ICommodity> => {
 };
 export const getCommodityByName = async (
   commodityName: string
-): Promise<ICommodity> => {
+): Promise<ICommoditySlugData> => {
   try {
-    const response = await axiosInstance.get<ICommodity>(
+    const response = await axiosInstance.get<ICommoditySlugData>(
       `commodities/${commodityName}`
     );
     return response.data;

@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { useGetAllCommodities } from "@/hooks/queries/use-commodity";
+import { useAuthStore } from "@/store/authStore";
 
 import CommodityForm from "@/components/CommodityComponents/CommodityForm";
 import Row from "@/components/CommodityComponents/Row";
@@ -22,8 +23,9 @@ import Layout from "@/components/Layout";
 import Nav from "@/components/nav/Nav";
 
 export default function CommoditiesPage() {
-  const role = "ADMIN";
   const { commodities, isLoading, error, isError } = useGetAllCommodities();
+  const { user } = useAuthStore();
+  const role = user?.role;
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error: {error?.message}</p>;

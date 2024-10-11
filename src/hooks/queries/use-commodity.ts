@@ -18,7 +18,7 @@ export const useGetAllCommodities = () => {
 
 // Define the custom hook for fetching a single commodity by slug
 export const useGetCommodityBySlug = (slug: string | undefined) => {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isPending } = useQuery({
     queryKey: ["getCommodity", slug],
     queryFn: async () => {
       if (slug) {
@@ -28,7 +28,7 @@ export const useGetCommodityBySlug = (slug: string | undefined) => {
     enabled: !!slug, // Only run the query if slug is defined
   });
 
-  return { commodity: data, isLoading, error };
+  return { commodity: data, isPending, error };
 };
 // Define the custom hook for fetching a single commodity by Commodity Name
 export const useGetCommodityByName = (commodityName: string) => {

@@ -23,11 +23,11 @@ import { QuickAction } from "@/components/DashboardComponents/QuickAction";
 export default function CommodityPage() {
   const { slug } = useParams<{ slug: string }>();
 
-  const { commodity, isLoading, error } = useGetCommodityBySlug(slug);
+  const { commodity, isPending, error } = useGetCommodityBySlug(slug);
   const { user } = useAuthStore();
   const role = user?.role;
 
-  if (isLoading) {
+  if (isPending) {
     return <p>Loading...</p>;
   }
 
@@ -35,15 +35,10 @@ export default function CommodityPage() {
     return <p>Error: {error.message}</p>;
   }
 
-  const comPrice = 10;
-  //   const comPrice = commodity?.prices?.at(-1)?.price;
-  const unitQty = commodity?.quantity;
-  const lastPrice = [8];
-  //   const lastPrice = commodity?.prices.slice(-2).map((item) => item.price);
-
+  const unitQty = commodity?.data.quantity;
+  const comPrice = commodity && commodity?.data.prices.at(-1)?.price;
+  const lastPrice = commodity?.data.prices.slice(-2).map((item) => item.price);
   const avgPrice = lastPrice && calculatePercentageChange(lastPrice);
-
-  console.log(commodity?.createdAt);
 
   return (
     <div className="w-full min-h-dvh">
@@ -59,7 +54,7 @@ export default function CommodityPage() {
           </Link>
           <EditCommodity
             role={role}
-            name={commodity?.commodityName}
+            name={commodity?.data.commodityName}
             price={comPrice}
           />
         </div>
@@ -67,7 +62,7 @@ export default function CommodityPage() {
           <div className="col-span-1 md:col-span-2 flex flex-col gap-8">
             <div className="rounded-2xl border-2 bg-background w-full flex flex-col gap-1 p-4">
               <h3 className="font-bold text-xs uppercase text-gray-500">
-                {commodity?.commodityName}
+                {commodity?.data?.commodityName}
               </h3>
               <div className="flex justify-between items-center gap-8">
                 <div className="flex gap-3 justify-center items-center">
@@ -110,7 +105,7 @@ export default function CommodityPage() {
               <div className="flex justify-between min-h-min h items-center text-sm">
                 <div className="flex flex-col justify-center w-full">
                   <p className="text-3xl uppercase font-semibold">
-                    {commodity?.commodityName}
+                    {commodity?.data.commodityName}
                   </p>
                   <span className="text-lg text-left text-muted-foreground uppercase font-semibold">
                     smaz
@@ -137,7 +132,7 @@ export default function CommodityPage() {
                     </span>
                     <div className="flex items-center text-left w-full">
                       <span className="text-2xl font-semibold capitalize">
-                        {commodity?.unit}
+                        {commodity?.data.unit}
                       </span>
                     </div>
                   </div>
@@ -169,8 +164,8 @@ export default function CommodityPage() {
               </div>
             </div>
             <AboutCommodity
-              name={commodity?.commodityName}
-              desc={commodity?.description}
+              name={commodity?.data.commodityName}
+              desc={commodity?.data.description}
             />
           </div>
           <div className="col-span-1 md:col-span-1 flex flex-col gap-8">

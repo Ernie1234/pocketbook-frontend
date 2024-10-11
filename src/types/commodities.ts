@@ -1,3 +1,5 @@
+import { ERole } from "./user";
+
 // Define the Price interface
 export interface IPrice {
   price: number; // The price of the commodity
@@ -20,6 +22,23 @@ export interface ICommodity {
   createdAt: Date; // Date when the commodity was created
   updatedAt: Date; // Date when the commodity was updated
   slug: string; // Slug for the commodity, often used in URLs
+  __v: number; // Version key for Mongoose documents
+}
+
+// Define the CommoditySlug interface
+export interface ICommoditySlugData {
+  data: ICommodity; // The commodity associated with the slug
+}
+
+export interface IUser {
+  _id: string; // Unique identifier for the user
+  name: string; // Username of the user
+  email: string; // Email address of the user
+  password: string; // Password for the user
+  commodities: ICommodity[]; // Array of commodities associated with the user
+  role: ERole; // Role of the user (e.g., admin, user)
+  createdAt: Date; // Date when the user was created
+  updatedAt: Date; // Date when the user was updated
   __v: number; // Version key for Mongoose documents
 }
 

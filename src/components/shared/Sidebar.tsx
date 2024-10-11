@@ -2,13 +2,16 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
+import { useAuthStore } from "@/store/authStore";
+
 import { Button } from "../ui/button";
 import { dashboardLinks } from "@/utils/data";
 
 export default function Sidebar() {
   const { pathname } = useLocation();
 
-  const role = "ADMIN";
+  const { user } = useAuthStore();
+  const role = user?.role;
 
   return (
     <aside className="top-0 sticky flex flex-col justify-between bg-green-800 p-4 min-w-min max-h-dvh">
