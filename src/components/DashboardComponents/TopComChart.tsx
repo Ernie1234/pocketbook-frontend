@@ -1,5 +1,3 @@
-"use client";
-
 import { Area, AreaChart, CartesianGrid } from "recharts";
 
 import {
@@ -18,7 +16,7 @@ const chartConfig = {
 
 interface Props {
   chartData: {
-    date: string;
+    date: Date;
     price: number;
   }[];
 }

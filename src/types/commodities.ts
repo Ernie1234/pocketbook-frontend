@@ -30,6 +30,23 @@ export interface ICommoditySlugData {
   data: ICommodity; // The commodity associated with the slug
 }
 
+// Define type for the main data structure
+interface PortfolioData {
+  commodityName: string;
+  commodityId: string;
+  balance: number;
+  totalQuantity: number;
+  userId: string;
+  createdAt: string; // Use Date if you prefer actual Date objects
+  updatedAt: string; // Use Date if you prefer actual Date objects
+  id: string;
+}
+
+// Define the response type
+export interface IPortfolioData {
+  data: PortfolioData[];
+}
+
 export interface IUser {
   _id: string; // Unique identifier for the user
   name: string; // Username of the user

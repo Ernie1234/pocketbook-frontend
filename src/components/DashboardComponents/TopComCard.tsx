@@ -1,13 +1,14 @@
 import { MdOutlineShowChart } from "react-icons/md";
 import { TbCurrencyNaira } from "react-icons/tb";
 
-import { formatPrice } from "@/utils/fnLib";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/utils/fnLib";
+
 import { TopComChart } from "./TopComChart";
 
 interface Props {
   name: string;
-  price: number | undefined;
+  prices: number | undefined;
   unit: string;
   priceList: {
     id: string;
@@ -21,14 +22,14 @@ interface Props {
 
 export default function TopComCard({
   name,
-  price,
+  prices,
   unit,
   priceList,
   avgPrice,
 }: Props) {
   const chartData = priceList.map((item) => {
     return {
-      date: item.createdAt.toLocaleDateString(),
+      date: item.createdAt,
       price: item.price,
     };
   });
@@ -67,7 +68,7 @@ export default function TopComCard({
       <div className="flex items-end space-x-2">
         <span className="self-end text-lg font-bold flex items-center">
           <TbCurrencyNaira size={24} />
-          <div className="-ml-0.5">{price && formatPrice(price)}</div>
+          <div className="-ml-0.5">{prices && formatPrice(prices)}</div>
         </span>
         <span className="text-sm pb-1">per unit</span>
       </div>

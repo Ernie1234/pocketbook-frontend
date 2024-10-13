@@ -35,7 +35,7 @@ export function ComChart({ commodityName }: Props) {
   console.log("Fetched data:", data);
 
   // Check if prices exist
-  if (!data || !data.prices || data.prices.length === 0) {
+  if (!data || !data.data.prices || data.data.prices.length === 0) {
     return <p>No data available for the chart.</p>;
   }
 
@@ -48,7 +48,7 @@ export function ComChart({ commodityName }: Props) {
     >
       <AreaChart
         accessibilityLayer
-        data={data.prices} // Ensure this maps to the correct structure
+        data={data.data.prices} // Ensure this maps to the correct structure
         margin={{
           left: 12,
           right: 12,

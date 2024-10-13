@@ -4,6 +4,7 @@ import TopCommodities from "@/components/DashboardComponents/TopCommodities";
 import Layout from "@/components/Layout";
 import Nav from "@/components/nav/Nav";
 import { RecentTransaction } from "@/components/shared/RecentTransaction";
+import YourCommodity from "@/components/shared/YourCommodity";
 
 export default function DashboardPage() {
   return (
@@ -24,7 +25,7 @@ export default function DashboardPage() {
         </div>
         <div className="flex lg:flex-row flex-col gap-8 w-full">
           <div className="w-full lg:max-w-[70%]">
-            {/* <YourCommodity portfolio={portfolioData} /> */}
+            <YourCommodity />
           </div>
           <div className="w-full lg:max-w-[30%]">
             <RecentTransaction />

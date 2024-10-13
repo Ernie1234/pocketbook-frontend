@@ -1,6 +1,5 @@
 import { ChevronsUpDown, Plus } from "lucide-react";
 import Empty from "./Empty";
-import { TPortfolioCommodity } from "@/utils/types";
 import {
   Table,
   TableBody,
@@ -10,32 +9,13 @@ import {
 } from "@/components/ui/table";
 import { Link } from "react-router-dom";
 import PortfolioRow from "../PortfolioComponents/PortfolioRow";
+import { useGetUserPortfolio } from "@/hooks/queries/use-portfolio";
 
-interface Props {
-  portfolio:
-    | TPortfolioCommodity[]
-    | {
-        error: string;
-      }
-    | undefined;
-}
+export default function YourCommodity() {
+  const { portfolio, isLoading, error } = useGetUserPortfolio();
 
-export default function YourCommodity({ portfolio }: Props) {
-  if (!Array.isArray(portfolio)) return <p>Error fetching portfolio here.</p>;
-  // if (portfolio?.error) return <p>Error fetching portfolio here.</p>;
-  if (portfolio?.length === 0)
-    return (
-      <div className="border-gray-200 bg-white shadow-sm p-4 border rounded-xl h-full">
-        <div className="flex justify-center items-center w-full">
-          <Empty
-            title="No commodities"
-            subtitle="Your commodities will appear here"
-            showBtn
-            btnTitle="Explore Commodity"
-          />
-        </div>
-      </div>
-    );
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error fetching data</p>;
 
   return (
     <div className="flex flex-col gap-3 w-full">
@@ -76,7 +56,7 @@ export default function YourCommodity({ portfolio }: Props) {
                 </TableRow>
               </TableHeader>
               <TableBody className="px-8">
-                {portfolio.map((commodity, index) => {
+                {portfolio?.map((commodity, index) => {
                   return (
                     <PortfolioRow
                       id={commodity.id}

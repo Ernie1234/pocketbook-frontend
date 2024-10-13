@@ -13,8 +13,8 @@ export default function Empty({ title, subtitle, showBtn, btnTitle }: IProps) {
   return (
     <div className="flex flex-col justify-center items-center gap-1">
       <img
-        className="w-16 object-contain"
-        src="/emptySet.png"
+        className="mt-5 w-20 object-contain"
+        src="/assets/emptySet.png"
         alt="Empty Transaction"
       />
 
