@@ -31,7 +31,7 @@ export interface ICommoditySlugData {
 }
 
 // Define type for the main data structure
-interface PortfolioData {
+export interface IPortfolio {
   commodityName: string;
   commodityId: string;
   balance: number;
@@ -44,7 +44,7 @@ interface PortfolioData {
 
 // Define the response type
 export interface IPortfolioData {
-  data: PortfolioData[];
+  data: IPortfolio[];
 }
 
 export interface IUser {

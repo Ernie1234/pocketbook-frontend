@@ -5,7 +5,7 @@ import { getUserPortfolio } from "@/services/apiServices/portfolioQueries";
 // Define the custom hook
 export const useGetUserPortfolio = () => {
   const { data, error, isLoading, isError } = useQuery({
-    queryKey: ["getCommodities"],
+    queryKey: ["getPortfolio"],
     queryFn: async () => getUserPortfolio(),
   });
 
