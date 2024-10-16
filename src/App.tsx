@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import SignUpPage from "./pages/SignUp";
 import { useAuthStore } from "./store/authStore";
+import SignUpPage from "./pages/SignUp";
 import { Route, Routes } from "react-router-dom";
 import {
   ProtectedRoute,

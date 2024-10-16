@@ -1,10 +1,32 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   getAllCommodities,
   getCommodityByName,
   getCommodityBySlug,
+  postCommodity,
 } from "@/services/apiServices/commodityQueries";
+
+// Define the custom hook
+export const usePostCommodity = () => {
+  const queryClient = useQueryClient(); // Get the query client for refetching
+
+  const mutation = useMutation({
+    mutationFn: postCommodity, // The function to call for creating a commodity
+    onSuccess: () => {
+      // Invalidate and refetch the commodities after a successful post
+      queryClient.invalidateQueries({ queryKey: ["getCommodities"] }); // Ensure this matches your query key
+    },
+  });
+
+  return {
+    mutation,
+    isPending: mutation.isPending, // Use isLoading instead of isPending
+    isError: mutation.isError,
+    error: mutation.error,
+    isSuccess: mutation.isSuccess,
+  };
+};
 
 // Define the custom hook
 export const useGetAllCommodities = () => {
