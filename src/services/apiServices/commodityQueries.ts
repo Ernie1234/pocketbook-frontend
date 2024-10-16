@@ -1,6 +1,6 @@
 import { ICommodityData, ICommoditySlugData } from "@/types/commodities";
 import { axiosInstance } from "../api";
-import { commodityFormSchema } from "@/utils/schema";
+import { commodityFormSchema, editCommodityFormSchema } from "@/utils/schema";
 import * as z from "zod";
 
 export const getAllCommodities = async () => {
@@ -44,6 +44,18 @@ export const postCommodity = async (
 ) => {
   try {
     const response = await axiosInstance.post("/commodities", values);
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error: any) {
+    console.error(error);
+    throw error.response.data;
+  }
+};
+export const updateCommodity = async (
+  values: z.infer<typeof editCommodityFormSchema>
+) => {
+  try {
+    const response = await axiosInstance.put("/commodities", values);
     console.log(response.data.data);
     return response.data.data;
   } catch (error: any) {

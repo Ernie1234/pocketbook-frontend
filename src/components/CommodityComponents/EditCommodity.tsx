@@ -12,8 +12,9 @@ interface Props {
   role: string | undefined;
   name: string | undefined;
   price: number | undefined;
+  quantity: number | undefined;
 }
-export default function EditCommodity({ role, name, price }: Props) {
+export default function EditCommodity({ role, name, price, quantity }: Props) {
   return (
     <div>
       {role === "ADMIN" && (
@@ -28,7 +29,12 @@ export default function EditCommodity({ role, name, price }: Props) {
             <SheetHeader>
               <SheetTitle>Add new commodity</SheetTitle>
             </SheetHeader>
-            <EditCommodityForm price={price} name={name} role={role} />
+            <EditCommodityForm
+              price={price}
+              name={name}
+              role={role}
+              quantity={quantity}
+            />
           </SheetContent>
         </Sheet>
       )}

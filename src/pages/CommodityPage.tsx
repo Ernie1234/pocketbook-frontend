@@ -39,6 +39,7 @@ export default function CommodityPage() {
   const comPrice = commodity && commodity?.data.prices.at(-1)?.price;
   const lastPrice = commodity?.data.prices.slice(-2).map((item) => item.price);
   const avgPrice = lastPrice && calculatePercentageChange(lastPrice);
+  const comQuantity = commodity?.data.quantity;
 
   return (
     <div className="w-full min-h-dvh">
@@ -56,6 +57,7 @@ export default function CommodityPage() {
             role={role}
             name={commodity?.data.commodityName}
             price={comPrice}
+            quantity={comQuantity}
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

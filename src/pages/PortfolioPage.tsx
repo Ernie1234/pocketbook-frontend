@@ -11,7 +11,6 @@ export default function PortfolioPage() {
       <Nav header="Portfolio" />
       <main className="flex lg:flex-row flex-col gap-5 lg:gap-8 bg-gray-100 p-4 w-full min-h-dvh overflow-scroll no-scrollbar">
         <div className="flex flex-col gap-8 w-full lg:max-w-[70%]">
-          {/* <PortfolioTable portfolio={portfolioData} /> */}
           <div className="w-full h-fit max-h-min">
             <PortfolioBalance adjust />
           </div>
