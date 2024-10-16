@@ -20,9 +20,9 @@ export const getCommodityBySlug = async (
       `commodities/${slug}`
     );
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    throw error;
+    throw error.response.data;
   }
 };
 export const getCommodityByName = async (

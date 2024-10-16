@@ -43,6 +43,7 @@ export const useUpdateCommodity = () => {
         queryKey: ["getCommodityBySlug"],
       }); // Ensure this matches your query key
     },
+    // Every second
     // You can also pass a queryKey or a refetchInterval to invalidate and refetch the query
     // whenever the commodity's name changes.
     // refetchInterval: 1000, // Every second
