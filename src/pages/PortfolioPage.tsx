@@ -1,7 +1,9 @@
 import PortfolioBalance from "@/components/DashboardComponents/PortfolioBalance";
 import Layout from "@/components/Layout";
 import Nav from "@/components/nav/Nav";
+import { PortChart } from "@/components/PortfolioComponents/PortChart";
 import { RecentTransaction } from "@/components/shared/RecentTransaction";
+import YourCommodity from "@/components/shared/YourCommodity";
 
 export default function PortfolioPage() {
   return (
@@ -11,13 +13,13 @@ export default function PortfolioPage() {
         <div className="flex flex-col gap-8 w-full lg:max-w-[70%]">
           {/* <PortfolioTable portfolio={portfolioData} /> */}
           <div className="w-full h-fit max-h-min">
-            <PortfolioBalance />
+            <PortfolioBalance adjust />
           </div>
-          {/* <YourCommodity portfolio={portfolioData} /> */}
+          <YourCommodity />
         </div>
         <div className="flex flex-col gap-8 w-full lg:max-w-[30%]">
           <RecentTransaction />
-          {/* <PortChart portfolio={portfolioData} /> */}
+          <PortChart />
         </div>
       </main>
     </Layout>

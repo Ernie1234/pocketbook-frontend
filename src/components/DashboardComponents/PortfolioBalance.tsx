@@ -15,8 +15,6 @@ export default function PortfolioBalance({ adjust }: Props) {
 
   const balance = portfolio?.reduce((acc, price) => acc + price.balance, 0);
 
-  console.log(portfolio);
-
   return (
     <div className="flex flex-col gap-3 w-full bg-white p-4 rounded-lg border border-gray-200 h-full">
       <div className="flex justify-between items-center">

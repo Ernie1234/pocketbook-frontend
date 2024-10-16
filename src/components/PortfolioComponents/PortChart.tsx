@@ -13,9 +13,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { TPortfolioCommodity } from "@/utils/types";
 import { formatPrice } from "@/utils/fnLib";
 import { TbCurrencyNaira } from "react-icons/tb";
+import { useGetUserPortfolio } from "@/hooks/queries/use-portfolio";
 
 const chartConfig = {
   visitors: {
@@ -43,16 +43,17 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface Props {
-  portfolio: TPortfolioCommodity[];
-}
+export function PortChart() {
+  const { portfolio, isLoading, error } = useGetUserPortfolio();
 
-export function PortChart({ portfolio }: Props) {
-  const data = portfolio.map((item) => {
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error fetching data</p>;
+
+  const data = portfolio?.map((item) => {
     const list = {
       browser: item.commodityName,
       visitors: item.balance,
-      fill: item.color,
+      fill: item.commodityId.color,
     };
     return list;
   });
@@ -84,7 +85,7 @@ export function PortChart({ portfolio }: Props) {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none flex-col w-full">
-          {portfolio.map((item) => (
+          {portfolio?.map((item) => (
             <div
               className="flex items-center justify-between w-full"
               key={item.id}

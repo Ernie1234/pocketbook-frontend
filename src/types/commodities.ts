@@ -33,7 +33,7 @@ export interface ICommoditySlugData {
 // Define type for the main data structure
 export interface IPortfolio {
   commodityName: string;
-  commodityId: string;
+  commodityId: ICommodity;
   balance: number;
   totalQuantity: number;
   userId: string;
