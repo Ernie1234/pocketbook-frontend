@@ -92,16 +92,23 @@ export const profileFormSchema = z.object({
 //ADD COMMODITY FORM ZOD SCHEMA
 export const commodityFormSchema = z.object({
   commodityName: z.string().min(1, {
-    message: "Name must be at least 1 characters.",
+    message: "Name must be at least 1 character.",
   }),
   description: z.string().min(3, {
     message: "Description must be at least 3 characters.",
   }),
-  quantity: z.number().min(1, "Quantity must be greater than 0"), // Ensure quantity is greater than 0
-  price: z.number().min(1, "Price must be a positive number"), // Ensure price is non-negative
+  quantity: z.number().min(1, {
+    message: "Quantity must be greater than 0",
+  }), // Ensure quantity is a number and greater than 0
+  price: z.number().min(1, {
+    message: "Price must be a positive number",
+  }), // Ensure price is a number and greater than 0
   unit: z.string(),
-  color: z.string(),
+  color: z.string().regex(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/, {
+    message: "Color must be a valid hex color code (e.g., #RRGGBB or #RGB)",
+  }), // Validate hex color code
 });
+
 //EDIT COMMODITY FORM ZOD SCHEMA
 export const editCommodityFormSchema = z.object({
   name: z.string().min(1, {

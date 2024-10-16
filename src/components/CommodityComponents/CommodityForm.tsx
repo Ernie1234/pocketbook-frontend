@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,7 +28,7 @@ export default function CommodityForm() {
     defaultValues: {
       unit: "per ton",
       quantity: 1,
-      price: 0,
+      price: 1,
     },
   });
 
@@ -37,8 +37,8 @@ export default function CommodityForm() {
   const onSubmit = (values: z.infer<typeof commodityFormSchema>) => {
     const formattedValues = {
       ...values,
-      quantity: Number(values.quantity) || 0, // Default to 0 if conversion fails
-      price: Number(values.price) || 0, // Default to 0 if conversion fails
+      quantity: Number(values.quantity) || 1, // Default to 0 if conversion fails
+      price: Number(values.price) || 1, // Default to 0 if conversion fails
     };
     mutation.mutate(formattedValues);
   };
@@ -46,7 +46,10 @@ export default function CommodityForm() {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 font-nunito"
+        >
           <FormField
             control={form.control}
             name="commodityName"
@@ -74,23 +77,27 @@ export default function CommodityForm() {
             )}
           />
           <div className="flex justify-center items-center gap-3">
-            <FormField
-              control={form.control}
-              name="quantity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Quantity</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Quantity of the commodity"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+            <div className="flex flex-col gap-3">
+              <label htmlFor="quantity">Quantity</label>
+              <Controller
+                name="quantity"
+                control={form.control}
+                render={({ field }) => (
+                  <input
+                    id="quantity"
+                    className="appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none flex border-input bg-background px-3 py-2 border rounded-md ring-offset-background w-full h-10 text-sm placeholder:text-muted-foreground"
+                    type="number"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))} // Convert to number
+                  />
+                )}
+              />
+              {form.formState.errors.quantity && (
+                <p className="font-semibold text-red-500 text-sm">
+                  {form.formState.errors.quantity.message}
+                </p>
               )}
-            />
+            </div>
             <FormField
               control={form.control}
               name="color"
@@ -110,28 +117,28 @@ export default function CommodityForm() {
             />
           </div>
           <div className="flex justify-center items-center gap-3">
-            <Controller
-              name="price"
-              control={form.control}
-              defaultValue={0} // Default value as a number
-              rules={{
-                required: "This field is required",
-                validate: (value) => !isNaN(value) || "Value must be a number", // Custom validation
-              }}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="number"
-                  onChange={(e) => field.onChange(Number(e.target.value))} // Ensure value is a number
-                  style={{
-                    borderColor: form.formState.errors.price ? "red" : "black",
-                  }} // Error styling
-                />
+            <div className="flex flex-col gap-3">
+              <label htmlFor="price">Price</label>
+              <Controller
+                name="price"
+                control={form.control}
+                render={({ field }) => (
+                  <input
+                    type="number"
+                    id="price"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))} // Convert to number
+                    className="appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none flex border-input bg-background px-3 py-2 border rounded-md ring-offset-background w-full h-10 text-sm placeholder:text-muted-foreground"
+                    placeholder="Commodity price"
+                  />
+                )}
+              />
+              {form.formState.errors.price && (
+                <p className="font-semibold text-red-500 text-sm">
+                  {form.formState.errors.price.message}
+                </p>
               )}
-            />
-            {form.formState.errors.price && (
-              <p>{form.formState.errors.price.message}</p>
-            )}
+            </div>
             <FormField
               control={form.control}
               name="unit"

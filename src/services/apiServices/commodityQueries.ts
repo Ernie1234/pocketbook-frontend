@@ -44,9 +44,10 @@ export const postCommodity = async (
 ) => {
   try {
     const response = await axiosInstance.post("/commodities", values);
+    console.log(response.data.data);
     return response.data.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    throw error;
+    throw error.response.data;
   }
 };

@@ -15,7 +15,9 @@ export const usePostCommodity = () => {
     mutationFn: postCommodity, // The function to call for creating a commodity
     onSuccess: () => {
       // Invalidate and refetch the commodities after a successful post
-      queryClient.invalidateQueries({ queryKey: ["getCommodities"] }); // Ensure this matches your query key
+      queryClient.invalidateQueries({
+        queryKey: ["getCommodities"],
+      }); // Ensure this matches your query key
     },
   });
 
@@ -41,7 +43,7 @@ export const useGetAllCommodities = () => {
 // Define the custom hook for fetching a single commodity by slug
 export const useGetCommodityBySlug = (slug: string | undefined) => {
   const { data, error, isPending } = useQuery({
-    queryKey: ["getCommodity", slug],
+    queryKey: ["getCommodityBySlug", slug],
     queryFn: async () => {
       if (slug) {
         return await getCommodityBySlug(slug);
@@ -55,7 +57,7 @@ export const useGetCommodityBySlug = (slug: string | undefined) => {
 // Define the custom hook for fetching a single commodity by Commodity Name
 export const useGetCommodityByName = (commodityName: string) => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ["getCommodity", commodityName],
+    queryKey: ["getCommodityByName", commodityName],
     queryFn: async () => await getCommodityByName(commodityName),
     enabled: !!commodityName, // Only run the query if commodityName is defined
   });
