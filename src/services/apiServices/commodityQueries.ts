@@ -1,4 +1,4 @@
-import { ICommodityData, ICommoditySlugData } from "@/types/commodities";
+import { ICommodityData, ICommoditySlugData } from "@/types/commodity.types";
 import { axiosInstance } from "../api";
 import { commodityFormSchema, editCommodityFormSchema } from "@/utils/schema";
 import * as z from "zod";

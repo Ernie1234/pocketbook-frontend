@@ -12,7 +12,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { IPortfolio } from "@/types/commodities";
+import { IPortfolio } from "@/types/commodity.types";
 
 interface Props {
   portfolio: IPortfolio[];

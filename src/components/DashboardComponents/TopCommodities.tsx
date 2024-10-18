@@ -10,8 +10,6 @@ export default function TopCommodities() {
 
   const filteredCom = commodities?.slice(0, 4);
 
-  console.log(filteredCom);
-
   return (
     <div className="flex flex-col gap-3 w-full">
       <p className="font-medium text-black text-lg capitalize">
