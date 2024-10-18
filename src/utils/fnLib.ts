@@ -75,3 +75,14 @@ export const getFormattedPriceChange = (prices: number[]) => {
 
   return "Not enough data to calculate.";
 };
+
+//  Converts a normal text to a slug that matches the slug validation schema.
+export const convertToSlug = (text: string): string => {
+  return text
+    .toLowerCase() // Convert to lowercase
+    .trim() // Trim whitespace from both ends
+    .replace(/\s+/g, "-") // Replace spaces with dashes
+    .replace(/--+/g, "-") // Replace multiple dashes with a single dash
+    .replace(/[^a-z0-9-]/g, "") // Remove invalid characters
+    .replace(/^-|-$/g, ""); // Remove leading or trailing dashes
+};

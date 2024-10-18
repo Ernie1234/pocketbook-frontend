@@ -4,12 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/utils/fnLib";
+import { convertToSlug, formatPrice } from "@/utils/fnLib";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  id: string;
   name: string;
   date: Date;
   amount: number;
@@ -17,7 +16,6 @@ interface Props {
 }
 
 export default function SoldTransactionRow({
-  id,
   name,
   date,
   amount,
@@ -31,10 +29,12 @@ export default function SoldTransactionRow({
     return format(new Date(date), "MMMM dd, yyyy");
   }, [date]);
 
+  const slug = convertToSlug(name);
+
   return (
     <TableRow
       className="hover:cursor-pointer"
-      onClick={() => navigate(`/dashboard/commodity/${id}`)}
+      onClick={() => navigate(`/dashboard/commodities/${slug}`)}
     >
       <TableCell className="font-medium">{createAt && createAt}</TableCell>
       <TableCell className="flex flex-col justify-center h-full">

@@ -1,8 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 import { useGetAllCommodities } from "@/hooks/queries/use-commodity";
 import { calculatePercentageChange } from "@/utils/fnLib";
 import TopComCard from "./TopComCard";
 
 export default function TopCommodities() {
+  const navigate = useNavigate();
   const { commodities, isLoading, error, isError } = useGetAllCommodities();
 
   if (isLoading) return <p>Loading...</p>;

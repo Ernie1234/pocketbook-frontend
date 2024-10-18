@@ -38,7 +38,6 @@ export default function TransactionTable() {
   const receivedTransactions = transaction?.filter(
     (t) => t.type === Tabs.RECEIVED
   );
-  const test = transaction?.filter((t) => console.log(t.type));
 
   return (
     <div className="flex flex-col border-gray-300 bg-white border rounded-xl overflow-hidden">
@@ -137,7 +136,6 @@ export default function TransactionTable() {
                 boughtTransactions?.map((item) => {
                   return (
                     <TransactionRow
-                      id={item.id}
                       key={item.id}
                       name={item.commodityName}
                       date={item.createdAt}
@@ -181,7 +179,6 @@ export default function TransactionTable() {
                 swapTransactions?.map((item) => {
                   return (
                     <SwapTransactionRow
-                      id={item.id}
                       key={item.id}
                       name={item.commodityName}
                       date={item.createdAt}
@@ -225,7 +222,6 @@ export default function TransactionTable() {
                 soldTransactions?.map((item) => {
                   return (
                     <SoldTransactionRow
-                      id={item.id}
                       key={item.id}
                       name={item.commodityName}
                       date={item.createdAt}
@@ -270,7 +266,6 @@ export default function TransactionTable() {
                   // console.log(sendTransactions.length);
                   return (
                     <SendTransactionRow
-                      id={item.id}
                       key={item.id}
                       name={item.commodityName}
                       date={item.createdAt}
@@ -314,7 +309,6 @@ export default function TransactionTable() {
                 receivedTransactions?.map((item) => {
                   return (
                     <SendTransactionRow
-                      id={item.id}
                       key={item.id}
                       name={item.commodityName}
                       date={item.createdAt}
