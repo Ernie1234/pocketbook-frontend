@@ -27,7 +27,7 @@ export default function CommoditiesPage() {
   const { user } = useAuthStore();
   const role = user?.role;
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p>Loading commodity...</p>;
   if (isError) return <p>Error: {error?.message}</p>;
 
   return (

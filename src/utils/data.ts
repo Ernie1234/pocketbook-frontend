@@ -42,7 +42,7 @@ export const dashboardLinks = [
     icon: HandCoins,
   },
   {
-    path: "/dashboard/setting",
+    path: "/dashboard/setting/profile",
     text: "Setting",
     icon: Bolt,
   },

@@ -16,8 +16,10 @@ import EmailVerificationPage from "./pages/Verification";
 import CommoditiesPage from "./pages/CommoditiesPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import TransactionPage from "./pages/TransactionPage";
-import SettingPage from "./pages/SettingPage";
 import CommodityPage from "./pages/CommodityPage";
+import ProfilePage from "./pages/ProfilePage";
+import NotificationPage from "./pages/NotificationPage";
+import PreferencePage from "./pages/PreferencePage";
 
 function App() {
   const { isCheckingAuth, checkAuth } = useAuthStore();
@@ -111,10 +113,26 @@ function App() {
         }
       />
       <Route
-        path="/dashboard/setting"
+        path="/dashboard/setting/profile"
         element={
           <ProtectedRoute>
-            <SettingPage />
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/setting/notification"
+        element={
+          <ProtectedRoute>
+            <NotificationPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard/setting/preference"
+        element={
+          <ProtectedRoute>
+            <PreferencePage />
           </ProtectedRoute>
         }
       />
