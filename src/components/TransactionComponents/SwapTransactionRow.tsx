@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { TbCurrencyNaira } from "react-icons/tb";
 
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { convertToSlug, formatPrice } from "@/utils/fnLib";
-import { TbCurrencyNaira } from "react-icons/tb";
 import { cn } from "@/lib/utils";
+
+import { convertToSlug, formatPrice } from "@/utils/fnLib";
 
 interface Props {
   name: string;

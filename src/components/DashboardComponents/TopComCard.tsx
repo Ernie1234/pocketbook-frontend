@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { MdOutlineShowChart } from "react-icons/md";
 import { TbCurrencyNaira } from "react-icons/tb";
 
@@ -18,6 +19,7 @@ interface Props {
     commodityId: string;
   }[];
   avgPrice: number;
+  slug: string;
 }
 
 export default function TopComCard({
@@ -26,7 +28,9 @@ export default function TopComCard({
   unit,
   priceList,
   avgPrice,
+  slug,
 }: Props) {
+  const navigate = useNavigate();
   const chartData = priceList.map((item) => {
     return {
       date: item.createdAt,
@@ -35,7 +39,10 @@ export default function TopComCard({
   });
 
   return (
-    <div className="bg-white p-4 rounded-lg border border-gray-200">
+    <div
+      className="bg-white p-4 rounded-lg border border-gray-200 cursor-pointer"
+      onClick={() => navigate(`/dashboard/commodities/${slug}`)}
+    >
       <div className="flex justify-between">
         <h4 className="space-x-1 uppercase font-semibold">
           <span className="">{name}</span>
