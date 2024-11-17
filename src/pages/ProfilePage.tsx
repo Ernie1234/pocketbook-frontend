@@ -1,5 +1,8 @@
+import { useState } from "react";
+import { CloudCog } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as z from "zod";
 
@@ -13,14 +16,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 import Layout from "@/components/Layout";
 import { useAuthStore } from "@/store/authStore";
 import { profileFormSchema } from "@/utils/schema";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { CloudCog } from "lucide-react";
 import Nav from "@/components/nav/Nav";
 
 export default function ProfilePage() {
@@ -159,14 +167,30 @@ export default function ProfilePage() {
                         </Link>
                       </p>
                       <div className="max-w-min">
-                        <Button
-                          type="button"
-                          size="lg"
-                          onClick={() => setChangeModalStore(true)}
-                          className="bg-green-50 hover:bg-green-600 text-green-700 hover:text-white transition-all duration-500"
-                        >
-                          Change Password
-                        </Button>
+                        <Dialog>
+                          <DialogTrigger>
+                            <Button
+                              type="button"
+                              size="lg"
+                              onClick={() => setChangeModalStore(true)}
+                              className="bg-green-50 hover:bg-green-600 text-green-700 hover:text-white transition-all duration-500"
+                            >
+                              Change Password
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>
+                                Are you absolutely sure?
+                              </DialogTitle>
+                              <DialogDescription>
+                                This action cannot be undone. This will
+                                permanently delete your account and remove your
+                                data from our servers.
+                              </DialogDescription>
+                            </DialogHeader>
+                          </DialogContent>
+                        </Dialog>
                       </div>
                     </div>
                   </div>

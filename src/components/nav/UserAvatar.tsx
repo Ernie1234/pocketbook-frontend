@@ -14,7 +14,7 @@ export function UserAvatar() {
           <Avatar className="border-gray-200 border w-10 md:w-12 h-10 md:h-12">
             <AvatarImage
               src={user?.image || ""}
-              alt="@shadcn"
+              alt="user image"
               className="object-center object-cover"
             />
             <AvatarFallback className="bg-muted font-nunito font-semibold text-lg">

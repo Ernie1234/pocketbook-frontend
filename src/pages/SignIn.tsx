@@ -50,7 +50,7 @@ const SignInPage = () => {
         <div className="flex flex-col gap-4 w-full items-center">
           <div className="flex flex-col justify-center items-center">
             <h2 className="font-semibold text-3xl text-gray-900">
-              Welcom Back!
+              Welcome Back!
             </h2>
             <p className="">Manage your account, build your portfolio</p>
           </div>

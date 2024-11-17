@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useAuthStore } from "./store/authStore";
 import SignUpPage from "./pages/SignUp";
 import { Route, Routes } from "react-router-dom";
 import {
@@ -20,6 +19,7 @@ import CommodityPage from "./pages/CommodityPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotificationPage from "./pages/NotificationPage";
 import PreferencePage from "./pages/PreferencePage";
+import { useAuthStore } from "./store/authStore";
 
 function App() {
   const { isCheckingAuth, checkAuth } = useAuthStore();

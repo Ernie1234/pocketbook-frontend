@@ -59,7 +59,7 @@ export default function Nav({ header }: IProps) {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Link
-                  to="/dashboard/setting"
+                  to="/dashboard/setting/profile"
                   className="flex w-full h-full items-center"
                 >
                   <User className="mr-2 h-4 w-4" />
@@ -68,11 +68,11 @@ export default function Nav({ header }: IProps) {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
-                  to="/dashboard/setting"
+                  to="/dashboard/setting/notification"
                   className="flex w-full h-full items-center"
                 >
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+                  <Bell className="mr-2 h-4 w-4" />
+                  <span>Notification</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
